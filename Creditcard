@@ -1,0 +1,101 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = pd.read_csv('C:\\Users\\SHRAVANI\\Downloads\\creditcard.csv')
+
+data.head()
+data.tail()
+data.info()
+data.isnull().sum()
+
+data['Class'].value_counts()
+legit = data[data.Class == 0]
+fraud = data[data.Class == 1]
+
+print(legit.shape)
+print(fraud.shape)
+
+legit.Amount.describe()
+farud.Amount.describe()
+
+data.groupby('Class').mean()
+legit_sample = legit.sample(n=492)
+new = pd.concat([legit_sample, fraud], axis = 0)
+new.head()
+new['Class'].value_counts()
+new.groupby('Class').mean()
+
+#Splitting data into features & targets
+X = new.drop(columns='Class', axis=1)
+Y = new['Class']
+print(X)
+print(Y)
+
+#Split the data into tarining and testing data
+X_train, X_test, Y_train, Y_test = train_test_split(X , Y, test_size=0.2, stratify=Y, random_state=2)
+print(X.shape, X_train.shape, X_test.shape)
+model = LogisticRegression()
+model.fit(X_train, Y_train)
+model.fit(X_train,Y_train)
+
+LogisticRegression()
+
+#Accuracy score on train data
+X_train_prediction = model.predict(X_train)
+trainaccuracy = accuracy_score(X_train_prediction, Y_train)
+print('Accuracy on Training data : ', trainaccuracy)
+
+#Accuracy score on test data
+X_test_prediction = model.predict(X_test)
+testaccuracy = accuracy_score(X_test_prediction, Y_test)
+print('Accuracy on Test data : ', testaccuracy)
+
+#insights using visualization
+
+def countplot_data(data, feature):
+    
+        Method to compute countplot of given dataframe
+        Parameters:
+            data(pd.Dataframe): Input Dataframe
+            feature(str): Feature in Dataframe
+    
+    plt.figure(figsize=(10,10))
+    sns.countplot(x=feature, data=data)
+    plt.show()
+
+def pairplot_data_grid(data, feature1, feature2, target):
+    
+        Method to construct pairplot of the given feature wrt data
+        Parameters:
+            data(pd.DataFrame): Input Dataframe
+            feature1(str): First Feature for Pair Plot
+            feature2(str): Second Feature for Pair Plot
+            target: Target or Label (y)
+    
+
+    sns.FacetGrid(data, hue=target, size=6).map(plt.scatter, feature1, feature2).add_legend()
+    plt.show()
+        
+countplot_data(data, data.Class)
+pairplot_data_grid(data, "Time", "Amount", "Class")
+pairplot_data_grid(data, "Amount", "Time", "Class")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
