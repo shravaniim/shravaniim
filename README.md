@@ -13,6 +13,6 @@ Get the code from the repository
 git clone https://github.com/sagnikghoshcr7/Credit-Card-Fraud-Detection.git 
 Download the dataset that will be used to train a transaction classifier. Unzip it and put the content (creditcard.csv) under main folder (Credit-Card-Fraud-Detection)
 
-Install required python packages if previously not installed
+Install required python packages if it is not installed previously
 
 Finally run on Jupyter Notebook and enjoy 😉
